@@ -1,8 +1,8 @@
 var dbconfig = {
   development: {
-    server: "192.168.56.106",
-    database: "team0_web_labDB",
-    user: "sa",
+    server: "10.21.45.35",
+    database: "team5_engse214_db",
+    user: "team5",
     password: "P@ssw0rd",
     port: 1433,
     options: {
@@ -11,13 +11,13 @@ var dbconfig = {
       enableArithAbort: true,
       trustServerCertificate: true,
       trustedconnection: true,
-      instancename: "192.168.56.106", // SQL Server instance name
+      instancename: "10.21.45.35", // SQL Server instance name
     },
   },
   production: {
-    server: "10.21.43.203",
-    database: "team0_web_labDB",
-    user: "team0",
+    server: "10.21.45.35",
+    database: "team5_engse214_db",
+    user: "team5",
     password: "P@ssw0rd",
     port: 1433,
     options: {
@@ -26,7 +26,7 @@ var dbconfig = {
       enableArithAbort: true,
       trustServerCertificate: true,
       trustedconnection: true,
-      instancename: "10.21.43.203", // SQL Server instance name
+      instancename: "10.21.45.35", // SQL Server instance name
     },
   },
 };

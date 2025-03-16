@@ -13,12 +13,12 @@ const databaseUri = process.env.DATABASE_URI || process.env.MONGODB_URI;
 var apiport = 4000;
 
 var options = {
-  key: fs.readFileSync("server.key"),
-  cert: fs.readFileSync("server.crt"),
+  key: fs.readFileSync("team5-engse214.net.key"),
+  cert: fs.readFileSync("team5-engse214.net.crt"),
 };
 
 const config = {
-  databaseURI: "mongodb://wallboarduser:WB1qazxsw2@localhost:27017/wallboarddb",
+  databaseURI: "mongodb://wallboarduser:WB1qazxsw2@10.21.43.215:27017/wallboarddb",
   cloud: process.env.CLOUD_CODE_MAIN || __dirname + "/cloud/main.js",
   appId: process.env.APP_ID || "wallboardapi",
   masterKey: process.env.MASTER_KEY || "wallboardapi", //Add your master key here. Keep it secret!

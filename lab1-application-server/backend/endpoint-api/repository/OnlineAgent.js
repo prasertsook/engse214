@@ -49,11 +49,6 @@ async function postOnlineAgentStatus(
   IsLogin,
   AgentStatus
 ) {
-  console.log("----------------");
-  console.log("AgentCode: " + AgentCode);
-  console.log("AgentName: " + AgentName);
-  console.log("IsLogin: " + IsLogin);
-  console.log("AgentStatus: " + AgentStatus);
 
   try {
     let pool = await sql.connect(sqlConfig);
@@ -109,8 +104,7 @@ async function postOnlineAgentStatus(
         .query(
           "UPDATE [OnlineAgents] SET [AgentName] = '" +
             AgentName +
-            "', [IsLogin] = '" +
-            IsLogin +
+            //"', [IsLogin] = '" +IsLogin +
             "', [AgentStatus] = '" +
             AgentStatus +
             "'  WHERE [agent_code] = '" +

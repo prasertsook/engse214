@@ -8,6 +8,8 @@ const OnlineAgent = require("./repository/OnlineAgent");
 
 const apiconfig = require("./apiconfig")["production"];
 
+const parse_server_config = apiconfig.parse_server;
+
 //-------------------------------------
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
@@ -115,8 +117,8 @@ const init = async () => {
   var fs = require("fs");
 
   var tls = {
-    key: fs.readFileSync("server.key"),
-    cert: fs.readFileSync("server.crt"),
+    key: fs.readFileSync("team5-engse214.net.key"),
+    cert: fs.readFileSync("team5-engse214.net.crt"),
   };
 
   //const server = Hapi.Server({
@@ -301,6 +303,18 @@ const init = async () => {
       const AgentName = param.AgentName;
       const IsLogin = param.IsLogin;
       const AgentStatus = param.AgentStatus;
+
+      const Team = param.Team; // --- New paramater
+      const AgentStatusCode = param.AgentStatusCode; // --- New paramater
+
+      console.log("----------------");
+      console.log("AgentCode: " + AgentCode);
+      console.log("AgentName: " + AgentName);
+      console.log("IsLogin: " + IsLogin);
+      console.log("AgentStatus: " + AgentStatus);
+      console.log("Team: " + Team);
+      console.log("AgentStatusCode: " + AgentStatusCode);
+
       var d = new Date();
 
       try {
@@ -341,12 +355,53 @@ const init = async () => {
                 })
               );
 
+              //--------- call parse server API -----
+
+              const axios = require("axios");
+              const https = require("https");
+
+              //axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
+              axios.defaults.headers.post["Content-Type"] = "application/json";
+              axios.defaults.headers.post["X-Parse-Application-Id"] = parse_server_config.appId;
+              axios.defaults.headers.post["X-Parse-Master-Key"] = parse_server_config.masterKey;
+              const agent = new https.Agent({
+                //requestCert: true,
+                rejectUnauthorized: false,
+                // ca:fs.readFileSync("team0-engse214.net.crt")
+              });
+
+              axios
+                .post(
+                  parse_server_config.hosturl +
+                    "/functions/postOnlineAgentListByTeam",
+                  {
+                    httpsAgent: agent,
+                    AgentCode: AgentCode,
+                    AgentName: AgentName,
+                    Team: Team,
+                    AgentStatus: AgentStatus,
+                    AgentStatusCode: AgentStatusCode,
+                    IsLogin: IsLogin,
+                  }
+                )
+                .then(
+                  (response) => {
+                    console.log(response);
+                    // return response.status
+                  },
+                  (error) => {
+                    console.log(error);
+                  }
+                );
+
+              //---------
               return {
                 error: false,
                 message: "Agent status has been set.",
               };
             }
           }
+
           //---------------- Websocket Part2 End -----------------------
 
           if (responsedata.statusCode == 200) return responsedata;
