@@ -4,15 +4,29 @@ const AuthBearer = require("hapi-auth-bearer-token");
 let fs = require("fs");
 let cors = require("cors");
 
+const dotenv = require('dotenv')
+dotenv.config()
+
 const OnlineAgent = require("./repository/OnlineAgent");
 
-const apiconfig = require("./apiconfig")["production"];
+var apiconfig;
+
+if (process.env.NODE_ENV === 'development') {
+  apiconfig = require("./apiconfig")["development"];
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+}
+if (process.env.NODE_ENV === 'production') {
+  apiconfig = require("./apiconfig")["production"];
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = "1";
+}
+
 
 const parse_server_config = apiconfig.parse_server;
 
+const ssl_path = apiconfig.ssl_path;
+
 //-------------------------------------
 
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 const apiport = 8443;
 
@@ -117,8 +131,8 @@ const init = async () => {
   var fs = require("fs");
 
   var tls = {
-    key: fs.readFileSync("team5-engse214.net.key"),
-    cert: fs.readFileSync("team5-engse214.net.crt"),
+    key: fs.readFileSync(ssl_path+"team5-engse214.net.key"),
+    cert: fs.readFileSync(ssl_path+"team5-engse214.net.crt"),
   };
 
   //const server = Hapi.Server({
