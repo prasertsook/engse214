@@ -21,7 +21,7 @@ var apiconfig = {
             javascriptKey : 'wallboardapi',
             appId : "wallboardapi"
         },
-        ssl_path: "/etc/ssl"
+        ssl_path: "/etc/ssl/"
     },
 
 };
